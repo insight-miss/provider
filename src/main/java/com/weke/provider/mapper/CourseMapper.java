@@ -24,6 +24,12 @@ public interface CourseMapper {
     @Select("select distinct(course_diff) from course")
     public List<String> getCourseDiff();
 
+    /**
+     * 方向详情查询
+     * @param courseDiff
+     * @param directionId
+     * @return
+     */
     @SelectProvider(type = CourseBuilder.class , method = "getCourseByDiff")
     public List<Course> getCourseByDiffAndDirection(@Param("courseDiff") String courseDiff,
                                                   @Param("directionId") Integer directionId);
@@ -46,4 +52,6 @@ public interface CourseMapper {
         }
     }
 
+    @Select("select * from course where course_name = #{courseName}")
+    Course getByCourseName(@Param("courseName") String courseName);
 }
