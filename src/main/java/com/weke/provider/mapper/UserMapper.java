@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 @Mapper
 public interface UserMapper {
 
-    @Select("select * from user where id = #{id}")
-    User getUserById(@Param("id") Integer id);
+    @Select("select * from user where user_id = #{id}")
+    User getUserById(@Param("user_id") Integer id);
 
-    @Insert("insert into user(userName,)")
+    @Insert("insert into user(user_name, user_password, user_photo, user_phone, user_sex, user_job, user_root, user_email, user_address, user_signature) values()")
     int addUser(@Param("user") User user);
 
 }
