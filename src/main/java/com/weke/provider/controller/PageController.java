@@ -1,23 +1,17 @@
 package com.weke.provider.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.weke.provider.domain.Course;
-import com.weke.provider.domain.Direction;
-import com.weke.provider.mapper.CourseMapper;
-import com.weke.provider.mapper.DirectionMapper;
+
 import com.weke.provider.service.CoursesService;
 import com.weke.provider.service.DirectionsService;
 import com.weke.provider.vo.CourseVo;
 import com.weke.provider.vo.DirectionVo;
-import com.weke.provider.vo.TecDetailVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.DataInput;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

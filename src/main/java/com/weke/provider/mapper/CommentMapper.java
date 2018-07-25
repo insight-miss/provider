@@ -1,0 +1,19 @@
+package com.weke.provider.mapper;
+
+import com.weke.provider.domain.Comment;
+import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Mapper
+@Component
+public interface CommentMapper {
+    @Insert("insert into comment(praise_num,comment_info,user_id,course_id)" +
+            " values(#{comment.praiseNum},#{comment.commentInfo},#{comment.userId},#{comment.courseId})")
+    @Options(useGeneratedKeys = true, keyProperty = "comment.commentId")
+    int insert(@Param("comment")Comment comment);
+
+    @Select("select * from comment where course_id = #{courseId}")
+    List<Comment> getCommentById(@Param("courseId") String courseId);
+}

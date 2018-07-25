@@ -10,12 +10,13 @@ public class Course {
     private Integer directionId;
     private String courseKind;
     private Integer courseLevel;
+    private String mustKnow;
 
     public Course(){
 
     }
 
-    public Course(Integer courseId, String courseName, String courseInfo, String courseTime, Integer coursePeople, String courseDiff, Integer directionId, String courseKind, Integer courseLevel) {
+    public Course(Integer courseId, String courseName, String courseInfo, String courseTime, Integer coursePeople, String courseDiff, Integer directionId, String courseKind, Integer courseLevel, String mustKnow) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.courseInfo = courseInfo;
@@ -25,8 +26,8 @@ public class Course {
         this.directionId = directionId;
         this.courseKind = courseKind;
         this.courseLevel = courseLevel;
+        this.mustKnow = mustKnow;
     }
-
 
     public Integer getCourseId() {
         return courseId;
@@ -100,6 +101,14 @@ public class Course {
         this.courseLevel = courseLevel;
     }
 
+    public String getMustKnow() {
+        return mustKnow;
+    }
+
+    public void setMustKnow(String mustKnow) {
+        this.mustKnow = mustKnow;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -107,11 +116,12 @@ public class Course {
                 ", courseName='" + courseName + '\'' +
                 ", courseInfo='" + courseInfo + '\'' +
                 ", courseTime='" + courseTime + '\'' +
-                ", coursePeople='" + coursePeople + '\'' +
+                ", coursePeople=" + coursePeople +
                 ", courseDiff='" + courseDiff + '\'' +
                 ", directionId=" + directionId +
                 ", courseKind='" + courseKind + '\'' +
                 ", courseLevel=" + courseLevel +
+                ", mustKnow='" + mustKnow + '\'' +
                 '}';
     }
 }

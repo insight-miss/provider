@@ -40,7 +40,7 @@ public interface CourseMapper {
             String sql = new SQL(){{
                 SELECT("C.course_id,C.course_name,C.course_info");
                 SELECT("C.course_time,C.course_people,C.course_diff");
-                SELECT("C.direction_id,C.course_kind,C.course_level");
+                SELECT("C.direction_id,C.course_kind,C.course_level,C.must_know");
                 FROM("course C");
                 WHERE("C.direction_id = #{directionId}");
                 if (!courseDiff.equals("all")) {
