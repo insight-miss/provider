@@ -21,7 +21,6 @@ public class CoursesServiceImpl implements CoursesService {
 
     @Override
     public List<CourseVo> getCourse() {
-        PageHelper.startPage(1,5);
         List<Course> courseList = courseMapper.getCourse();
         List<CourseVo> courseVos = new ArrayList<>();
 

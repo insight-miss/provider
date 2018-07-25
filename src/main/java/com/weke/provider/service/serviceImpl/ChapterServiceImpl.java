@@ -13,6 +13,7 @@ import com.weke.provider.vo.SectionVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Autowired
     ChapterMapper chapterMapper;
+
 
     @Override
     public CatalogVo getCatalogVo(String courseName) {
