@@ -16,7 +16,6 @@ public class DirectionPage {
 
     @PostMapping("info")
     public DirectionDetailsVo getDirectionInfo(@RequestBody DirectionDetail directionDetail) {
-//        System.out.println(directionDetail.getDiff());
         System.out.println("dire="+directionDetail.getDire());
         DirectionDetailsVo directionDetailsVo = directionService.getDirectionDetails(directionDetail.getDire(),directionDetail.getKind(),directionDetail.getDiff());
         System.out.println(directionDetailsVo);
