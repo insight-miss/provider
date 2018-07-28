@@ -17,10 +17,18 @@ spring:
       multipart:
         max-file-size: 100Mb
         max-request-size: 1000Mb
+  data:
+    mongodb:
+      uri: mongodb://localhost:12345/imooc
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
 
 weke.endpoint: oss-cn-beijing.aliyuncs.com
 weke.keyId: LTAIXfxqPpwWg32d

@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("problemReview")
-@CrossOrigin
 public class ProblemReviewController {
 
     @Autowired
@@ -22,7 +21,6 @@ public class ProblemReviewController {
                                                       String courseName) {
         System.out.println("Problem:"+courseName);
         ProblemPageVo problemPageVo = problemReviewService.getByCourseName(courseName);
-//        System.out.println(problemPageVo);
         return problemPageVo;
     }
 

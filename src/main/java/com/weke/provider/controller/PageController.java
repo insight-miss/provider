@@ -3,6 +3,7 @@ package com.weke.provider.controller;
 
 import com.weke.provider.service.CoursesService;
 import com.weke.provider.service.DirectionsService;
+import com.weke.provider.util.TokenUtil;
 import com.weke.provider.vo.CourseVo;
 import com.weke.provider.vo.DirectionVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -34,7 +36,11 @@ public class PageController {
      * @return
      */
     @GetMapping("/course")
-    public List<CourseVo> getCourse() {
+    public List<CourseVo> getCourse(HttpServletRequest request) {
+//        String token = request.getHeader("Authorization");
+//        TokenUtil tokenUtil = new TokenUtil(token);
+//        String userName = tokenUtil.getUserName();
+//        System.out.println(userName);
         return courseService.getCourse();
     }
 

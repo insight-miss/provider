@@ -23,10 +23,11 @@ public class UploadController {
     @RequestMapping(value = "video")
     public String uploadBlog(MultipartFile file){
 
+        System.out.println("上传文件");
+
         String uploadUrl = "null";
  
         try {
- 
             if(null != file){
                 String filename = file.getOriginalFilename();
                 System.out.println(filename);
@@ -46,6 +47,7 @@ public class UploadController {
         }catch (Exception ex){
             ex.printStackTrace();
         }
+
         return uploadUrl;
     }
  
