@@ -4,6 +4,8 @@ import com.weke.provider.domain.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Mapper
 public interface UserMapper {
@@ -14,7 +16,16 @@ public interface UserMapper {
     @Select("select * from user where user_name = #{userName}")
     User getUserName(@Param("userName") String userName);
 
-    @Insert("insert into user(user_name, user_password) values(#{userName}, #{userPassword})")
+    @Insert("insert into user(user_name, user_password,user_phone) values(#{userName}, #{userPassword},#{userPhone})")
     @Options(useGeneratedKeys=true, keyProperty="userId")
     int addUser(User user);
+
+    @Select("select user_id from user where user_name = #{userName}")
+    Integer getIdByName(@Param("userName")String userName);
+
+    @Select("select * from user")
+    List<User> getAllUserInfo();
+
+    @Select("select user_name from user where user_email = #{emailName}")
+    String getUserNameByEmail(String emailName);
 }

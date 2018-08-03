@@ -24,7 +24,7 @@ public class TimeUtil {
             result = "未开始";
         }
 
-        if (currentTime.compareTo(startTime)>0 && currentTime.compareTo(endTime)<0) {
+        if (currentTime.compareTo(startTime)>=0 && currentTime.compareTo(endTime)<=0) {
             result = "进行中";
         }
 

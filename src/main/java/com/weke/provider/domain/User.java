@@ -12,11 +12,12 @@ public class User {
     private String userEmail;
     private String userAddress;
     private String userSignature;
+    private String userPhone;
 
     public User() {
     }
 
-    public User(Integer userId, String userName, String userPassword, String userPhoto, String userSex, String userJob, String userRoot, String userEmail, String userAddress, String userSignature) {
+    public User(Integer userId, String userName, String userPassword, String userPhoto, String userSex, String userJob, String userRoot, String userEmail, String userAddress, String userSignature, String userPhone) {
         this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
@@ -27,22 +28,15 @@ public class User {
         this.userEmail = userEmail;
         this.userAddress = userAddress;
         this.userSignature = userSignature;
+        this.userPhone = userPhone;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", userPassword='" + userPassword + '\'' +
-                ", userPhoto='" + userPhoto + '\'' +
-                ", userSex='" + userSex + '\'' +
-                ", userJob='" + userJob + '\'' +
-                ", userRoot='" + userRoot + '\'' +
-                ", userEmail='" + userEmail + '\'' +
-                ", userAddress='" + userAddress + '\'' +
-                ", userSignature='" + userSignature + '\'' +
-                '}';
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     public Integer getUserId() {
@@ -123,5 +117,22 @@ public class User {
 
     public void setUserSignature(String userSignature) {
         this.userSignature = userSignature;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userPhoto='" + userPhoto + '\'' +
+                ", userSex='" + userSex + '\'' +
+                ", userJob='" + userJob + '\'' +
+                ", userRoot='" + userRoot + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userAddress='" + userAddress + '\'' +
+                ", userSignature='" + userSignature + '\'' +
+                ", userPhone='" + userPhone + '\'' +
+                '}';
     }
 }

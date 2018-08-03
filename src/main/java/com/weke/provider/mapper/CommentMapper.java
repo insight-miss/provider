@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 @Component
 public interface CommentMapper {
-    @Insert("insert into comment(praise_num,comment_info,user_id,course_id)" +
-            " values(#{comment.praiseNum},#{comment.commentInfo},#{comment.userId},#{comment.courseId})")
+    @Insert("insert into comment(praise_num,comment_info,user_id,course_id,comment_time)" +
+            " values(#{comment.praiseNum},#{comment.commentInfo},#{comment.userId},#{comment.courseId},#{comment.commentTime})")
     @Options(useGeneratedKeys = true, keyProperty = "comment.commentId")
     int insert(@Param("comment")Comment comment);
 

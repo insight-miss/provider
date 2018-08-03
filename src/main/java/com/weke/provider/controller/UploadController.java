@@ -2,12 +2,10 @@ package com.weke.provider.controller;
  
 import com.weke.provider.util.AliyunOSSUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
- 
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
  
@@ -21,9 +19,9 @@ public class UploadController {
      * @param file
      */
     @RequestMapping(value = "video")
-    public String uploadBlog(MultipartFile file){
+    public String uploadBlog(MultipartFile file,HttpServletRequest request){
 
-        System.out.println("上传文件");
+        System.out.println("上传文件"+request.getHeader("catalogName")+" "+request.getHeader("chapterName"));
 
         String uploadUrl = "null";
  

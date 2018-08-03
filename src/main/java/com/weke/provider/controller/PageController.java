@@ -3,9 +3,11 @@ package com.weke.provider.controller;
 
 import com.weke.provider.service.CoursesService;
 import com.weke.provider.service.DirectionsService;
+import com.weke.provider.service.MessageInfoService;
 import com.weke.provider.util.TokenUtil;
 import com.weke.provider.vo.CourseVo;
 import com.weke.provider.vo.DirectionVo;
+import com.weke.provider.vo.MessageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,9 @@ public class PageController {
     @Autowired
     private DirectionsService directionService;
 
+    @Autowired
+    private MessageInfoService messageInfoService;
+
 
     /**
      * 获取首页课程信息
@@ -47,5 +52,10 @@ public class PageController {
     @GetMapping("direction")
     public List<DirectionVo> getDirection() {
         return directionService.getDirection();
+    }
+
+    @GetMapping("putMessage")
+    public MessageInfo getMessageInfo() {
+        return messageInfoService.getMessage();
     }
 }
