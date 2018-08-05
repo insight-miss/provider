@@ -29,8 +29,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * 需要放行的URL
      */
     private static final String[] AUTH_WHITELIST = {
+            "/problemReview/**",
+            "/catalog/**",
+            "/video/**",
+            "/page/**",
             "/user/register",
-            "/**",
             "/webjars/**"
     };
 

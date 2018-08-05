@@ -19,4 +19,18 @@ public class AuthorityUtil {
         UserPermission userPermission = userPermissionMapper.getByUserId(userId);
         return userPermission.getPermission();
     }
+
+    public Boolean isTeacher(String name) {
+        if (getAuthority(name).equals("Teacher")) {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean isAdmin(String name) {
+        if (getAuthority(name).equals("admin")) {
+            return true;
+        }
+        return false;
+    }
 }

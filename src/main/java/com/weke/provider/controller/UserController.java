@@ -31,6 +31,7 @@ public class UserController {
 
     @PostMapping("userInfo")
     public List<UserInfoVo> getUserInfo() {
+        System.out.println("userInfo");
         return userInfoService.getUserInfo();
     }
 

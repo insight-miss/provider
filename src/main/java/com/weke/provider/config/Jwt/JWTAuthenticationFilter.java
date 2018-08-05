@@ -62,7 +62,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
                     .parseClaimsJws(token.replace("Bearer ", ""))
                     .getBody()
                     .getSubject();
-
+            System.out.println("tonken="+user);
             if (user != null) {
                 String[] split = user.split("-")[1].split(",");
                 ArrayList<GrantedAuthority> authorities = new ArrayList<>();

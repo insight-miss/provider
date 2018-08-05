@@ -91,12 +91,15 @@ public class ExamServiceImpl implements ExamService {
             List<Options> optionsList = new ArrayList<>();
 
             int s = 1;
-            for (Option option : questions1.getOptions()) {
-                Options options = new Options();
-                options.setOptionDetails(option.getOptionDetails());
-                options.setOptionNumber(s++);
-                optionsList.add(options);
+            if (questions1.getOptions() != null) {
+                for (Option option : questions1.getOptions()) {
+                    Options options = new Options();
+                    options.setOptionDetails(option.getOptionDetails());
+                    options.setOptionNumber(s++);
+                    optionsList.add(options);
+                }
             }
+
             question.setOptions(optionsList);
             questions.add(question);
             i++;
