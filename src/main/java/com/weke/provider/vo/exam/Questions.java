@@ -7,28 +7,28 @@ import java.util.List;
 
 public class Questions implements Serializable {
 
-    @JsonProperty("_type")
+    @JsonProperty("type")
     private Integer type;
 
-    @JsonProperty("_questionNumber")
+    @JsonProperty("questionNumber")
     private Integer questionNumber;
 
-    @JsonProperty("_problem")
+    @JsonProperty("problem")
     private String problem;
 
-    @JsonProperty("_options")
+    @JsonProperty("options")
     private List<Option> options;
 
-    @JsonProperty("_userAnswer")
+    @JsonProperty("userAnswer")
     private String userAnswer;
 
-    @JsonProperty("_answer")
+    @JsonProperty("answer")
     private String answer;
 
-    @JsonProperty("_status")
+    @JsonProperty("status")
     private Integer status;
 
-    @JsonProperty("_grade")
+    @JsonProperty("grade")
     private Integer grade;
 
     public Questions() {

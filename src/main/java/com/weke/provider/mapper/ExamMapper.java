@@ -2,11 +2,11 @@ package com.weke.provider.mapper;
 
 import com.weke.provider.domain.Comment;
 import com.weke.provider.domain.Exam;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Mapper
 @Component
@@ -16,4 +16,10 @@ public interface ExamMapper {
             " values(#{exam.examName},#{exam.startTime},#{exam.endTime},#{exam.statues},#{exam.examGrade},#{exam.userId})" )
     @Options(useGeneratedKeys = true, keyProperty = "exam.examId")
     int insert(@Param("exam")Exam exam);
+
+    @Select("select exam_name from exam where exam_id = #{id}")
+    String getNameById(Integer id);
+
+    @Select("select * from exam where user_id = #{userId}")
+    List<Exam> getExamIdByUserId(Integer userId);
 }

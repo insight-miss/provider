@@ -6,17 +6,19 @@ public class Comment {
     private String commentInfo;
     private Integer userId;
     private String courseId;
+    private String commentTime;
 
     public Comment() {
 
     }
 
-    public Comment(Integer commentId, Integer praiseNum, String commentInfo, Integer userId, String courseId) {
+    public Comment(Integer commentId, Integer praiseNum, String commentInfo, Integer userId, String courseId, String commentTime) {
         this.commentId = commentId;
         this.praiseNum = praiseNum;
         this.commentInfo = commentInfo;
         this.userId = userId;
         this.courseId = courseId;
+        this.commentTime = commentTime;
     }
 
     public Integer getCommentId() {
@@ -59,6 +61,14 @@ public class Comment {
         this.courseId = courseId;
     }
 
+    public String getCommentTime() {
+        return commentTime;
+    }
+
+    public void setCommentTime(String commentTime) {
+        this.commentTime = commentTime;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -67,6 +77,7 @@ public class Comment {
                 ", commentInfo='" + commentInfo + '\'' +
                 ", userId=" + userId +
                 ", courseId='" + courseId + '\'' +
+                ", commentTime='" + commentTime + '\'' +
                 '}';
     }
 }

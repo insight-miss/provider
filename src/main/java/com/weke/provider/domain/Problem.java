@@ -9,11 +9,12 @@ public class Problem {
     private Integer viewNumber;
     private String problemTitle;
     private String courseId;
+    private String problemTime;
 
     public Problem() {
     }
 
-    public Problem(Integer problemId, Integer answerNum, Integer userId, String problemInfo, Integer viewNumber, String problemTitle, String courseId) {
+    public Problem(Integer problemId, Integer answerNum, Integer userId, String problemInfo, Integer viewNumber, String problemTitle, String courseId, String problemTime) {
         this.problemId = problemId;
         this.answerNum = answerNum;
         this.userId = userId;
@@ -21,6 +22,7 @@ public class Problem {
         this.viewNumber = viewNumber;
         this.problemTitle = problemTitle;
         this.courseId = courseId;
+        this.problemTime = problemTime;
     }
 
     public Integer getProblemId() {
@@ -79,6 +81,14 @@ public class Problem {
         this.courseId = courseId;
     }
 
+    public String getProblemTime() {
+        return problemTime;
+    }
+
+    public void setProblemTime(String problemTime) {
+        this.problemTime = problemTime;
+    }
+
     @Override
     public String toString() {
         return "Problem{" +
@@ -88,7 +98,8 @@ public class Problem {
                 ", problemInfo='" + problemInfo + '\'' +
                 ", viewNumber=" + viewNumber +
                 ", problemTitle='" + problemTitle + '\'' +
-                ", courseId=" + courseId +
+                ", courseId='" + courseId + '\'' +
+                ", problemTime='" + problemTime + '\'' +
                 '}';
     }
 }

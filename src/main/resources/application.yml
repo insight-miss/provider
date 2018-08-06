@@ -13,10 +13,6 @@ spring:
     password: root
   redis:
     host: localhost
-    pool:
-      max-active: 8
-      max-idle: 8
-      min-idle: 0
   http:
       multipart:
         max-file-size: 100Mb
@@ -24,16 +20,19 @@ spring:
   data:
     mongodb:
       uri: mongodb://10.0.0.26:12345/imooc
-    elasticsearch:
-      cluster-nodes: 127.0.0.1:9300
-      local: false
-      repositories:
-        enable: true
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-
+  mail:
+    host: smtp.126.com
+    username: t1850257253@126.com
+    password: T1850257253
+    default-encoding: UTF-8
+    port: 25
+    protocol: smtp
+  activemq:
+    broker-url: tcp://10.0.0.26:61616
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
@@ -44,3 +43,6 @@ weke.keyId: LTAIXfxqPpwWg32d
 weke.ketsecret: 5vWdV4dleGTHZU6H7c1wsXlYnAXqXV
 weke.bucketname: weke-video
 weke.filehost: video
+
+sms.signName: 唐文亮
+sms.templateCode: SMS_141195199

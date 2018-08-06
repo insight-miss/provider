@@ -8,6 +8,7 @@ import com.weke.provider.mapper.CommentMapper;
 import com.weke.provider.mapper.CourseMapper;
 import com.weke.provider.mapper.ProblemMapper;
 import com.weke.provider.service.ProblemReviewService;
+import com.weke.provider.util.TimeUtil;
 import com.weke.provider.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,9 @@ public class ProblemReviewServiceImpl implements ProblemReviewService {
 
     @Autowired
     CourseMapper courseMapper;
+
+    @Autowired
+    private TimeUtil timeUtil;
 
     @Override
     public ProblemPageVo getByCourseName(String courseName) {
@@ -71,7 +75,7 @@ public class ProblemReviewServiceImpl implements ProblemReviewService {
             problemReviewVo.setUserId(problem.getUserId());
             problemReviewVo.setBrowse(problem.getViewNumber().toString());
             problemReviewVo.setTitle(problem.getProblemTitle());
-            problemReviewVo.setTime("2018-10-10");
+            problemReviewVo.setTime(problem.getProblemTime());
             reviewVos.add(problemReviewVo);
         }
     }
@@ -88,7 +92,7 @@ public class ProblemReviewServiceImpl implements ProblemReviewService {
             problemReviewVo.setUserId(comment.getUserId());
             problemReviewVo.setBrowse(comment.getCourseId());
             problemReviewVo.setTitle("");
-            problemReviewVo.setTime("2018-10-10");
+            problemReviewVo.setTime(comment.getCommentTime());
             reviewVos.add(problemReviewVo);
         }
     }
@@ -103,6 +107,7 @@ public class ProblemReviewServiceImpl implements ProblemReviewService {
         problem.setAnswerNum(0);
         problem.setUserId(1);
         problem.setViewNumber(0);
+        problem.setProblemTime(timeUtil.getTime());
         problemMapper.insert(problem);
     }
 
@@ -113,6 +118,7 @@ public class ProblemReviewServiceImpl implements ProblemReviewService {
         comment.setCourseId(commentVo.getCourseName());
         comment.setPraiseNum(0);
         comment.setUserId(1);
+        comment.setCommentTime(timeUtil.getTime());
         commentMapper.insert(comment);
     }
 }

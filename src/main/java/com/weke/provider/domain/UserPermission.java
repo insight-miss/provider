@@ -2,15 +2,15 @@ package com.weke.provider.domain;
 
 public class UserPermission {
     private Integer id;
-    private Integer user_id;
+    private Integer userId;
     private String permission;
 
     public UserPermission() {
     }
 
-    public UserPermission(Integer id, Integer user_id, String permission) {
+    public UserPermission(Integer id, Integer userId, String permission) {
         this.id = id;
-        this.user_id = user_id;
+        this.userId = userId;
         this.permission = permission;
     }
 
@@ -22,12 +22,12 @@ public class UserPermission {
         this.id = id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getPermission() {
@@ -42,7 +42,7 @@ public class UserPermission {
     public String toString() {
         return "UserPermission{" +
                 "id=" + id +
-                ", user_id=" + user_id +
+                ", userId=" + userId +
                 ", permission='" + permission + '\'' +
                 '}';
     }

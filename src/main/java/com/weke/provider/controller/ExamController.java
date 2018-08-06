@@ -1,12 +1,14 @@
 package com.weke.provider.controller;
 
 import com.weke.provider.mapper.ExamMapper;
+import com.weke.provider.mongodb.ExamExport;
 import com.weke.provider.mongodb.ProblemInfo;
 import com.weke.provider.mongodb.Question;
+import com.weke.provider.mongodb.TestInfo;
+import com.weke.provider.repository.TestInfoRepository;
 import com.weke.provider.service.ExamService;
 import com.weke.provider.util.TimeUtil;
-import com.weke.provider.vo.exam.Exams;
-import com.weke.provider.vo.exam.ExamInfo;
+import com.weke.provider.vo.exam.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,6 +64,7 @@ public class ExamController {
     @PostMapping("/publish")
     public String publishExam(@RequestBody ExamInfo examInfo) {
         try {
+            System.out.println(examInfo);
             examService.insertTestInfo(examInfo);
         } catch (Exception e) {
             return "false";
@@ -87,5 +90,80 @@ public class ExamController {
     @GetMapping("/examInfo")
     public List<Question> getExamInfo(@RequestParam("id") Integer id) {
         return examService.getAllQuestions(id);
+    }
+
+    /**
+     * 交卷
+     * @param userExamVo
+     * @return
+     */
+    @PostMapping("/submitExam")
+    public String setUserExam(@RequestBody UserExamVo userExamVo) {
+//        try {
+//            System.out.println(userExamVo);
+//            examService.insertUserExam(userExamVo);
+//        } catch (Exception e) {
+//            return "false";
+//        }
+        examService.insertUserExam(userExamVo);
+        return "true";
+    }
+
+    /**
+     * 获取考试分析页面信息
+     * @param analysis
+     * @return
+     */
+    @PostMapping("/examAnalySis")
+    public ExamExport getExamAnalysis(@RequestBody Analysis analysis) {
+        return examService.getAnalysis(analysis);
+    }
+
+    /**
+     * 获取答题解析页面
+     * @return
+     */
+    @PostMapping("/getQuestions")
+    public List<Question> getQuestions(@RequestBody Analysis analysis) {
+        if (analysis==null) {
+            return null;
+        }
+        if (analysis.getTestId() == null) {
+            return null;
+        }
+        return examService.getQuestion(analysis);
+    }
+
+    /**
+     * 提交改题页面信息
+     * @param userExamVo
+     * @return
+     */
+    @PostMapping("/setQuestions")
+    public String setQuestions(@RequestBody UserExamVo userExamVo) {
+//        System.out.println(userExamVo);
+        try {
+            examService.setQuestions(userExamVo);
+        } catch (Exception e) {
+            return "false";
+        }
+        return "true";
+    }
+
+    /**
+     * 获取排行榜
+     * @param testId
+     */
+    @GetMapping("/rank")
+    public List<RankVo> getRank(Integer testId) {
+        return examService.getRank(testId);
+    }
+
+    @Autowired
+    private TestInfoRepository testInfoRepository;
+
+    @GetMapping("/testInfo")
+    public List<TestInfo> getTestInfo() {
+        return testInfoRepository.findAllBy();
     }
 }
