@@ -1,10 +1,7 @@
 package com.weke.provider.mapper;
 
 import com.weke.provider.domain.Course;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Component;
 
@@ -54,4 +51,9 @@ public interface CourseMapper {
 
     @Select("select * from course where course_name = #{courseName}")
     Course getByCourseName(@Param("courseName") String courseName);
+
+    @Insert("insert into course(course_name, course_info, course_time, course_people,course_diff, direction_id, course_level, must_know)" +
+            "values(#{courseName}, #{courseInfo}, #{courseTime}, #{coursePeople}, #{courseDiff}, #{directionId}, #{courseLevel}, #{mustKnow})")
+    @Options(useGeneratedKeys=true, keyProperty="courseId")
+    Integer saveCourse(Course course);
 }

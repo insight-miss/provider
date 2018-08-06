@@ -3,7 +3,7 @@ package com.weke.provider.domain;
 public class Chapter {
     private Integer chapterId;
     private String chapterName;
-    private String chapterUrl;
+    private String chapterUrl;// 课程视频url
     private Integer catalogId;
 
     public Chapter() {

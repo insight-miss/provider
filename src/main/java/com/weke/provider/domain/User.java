@@ -7,11 +7,11 @@ public class User {
     private String userPassword;
     private String userPhoto;
     private String userSex;
-    private String userJob;
-    private String userRoot;
+    private String userJob;// 用户身份
+    private String userRoot;// 用户权限
     private String userEmail;
-    private String userAddress;
-    private String userSignature;
+    private String userAddress;// 用户登录城市
+    private String userSignature;// 个性签名
 
     public User() {
     }

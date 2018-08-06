@@ -8,6 +8,7 @@ import com.aliyun.oss.model.CreateBucketRequest;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import com.weke.provider.config.ConstantProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
@@ -18,7 +19,8 @@ import java.util.UUID;
 public class AliyunOSSUtil {
 
 
-    public static String upload(File file) {
+
+    public static String upload(File file, String uid) {
 //        String endpoint = ConstantProperties.JAVA4ALL_END_POINT;
 //        String accessKeyId = ConstantProperties.JAVA4ALL_ACCESS_KEY_ID;
 //        String accessKeySecret = ConstantProperties.JAVA4ALL_ACCESS_KEY_SECRET;
@@ -48,7 +50,7 @@ public class AliyunOSSUtil {
                 ossClient.createBucket(createBucketRequest);
             }
             //创建文件路径
-            String fileUrl = fileHost + "/" + (dateStr + "/" + UUID.randomUUID().toString().replace("-", "") + "-" + file.getName());
+            String fileUrl = fileHost + "/" + (dateStr + "/" + uid + "-" + file.getName());
             //上传文件
             PutObjectResult result = ossClient.putObject(new PutObjectRequest(bucketName, fileUrl, file));
             //设置权限 这里是公开读

@@ -1,6 +1,12 @@
 package com.weke.provider.domain;
 
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+
+@Document(indexName = "weke", type = "course",indexStoreType="fs",shards=5,replicas=1,refreshInterval="-1")
 public class Course {
+    @Id
     private Integer courseId;
     private String courseName;
     private String courseInfo;

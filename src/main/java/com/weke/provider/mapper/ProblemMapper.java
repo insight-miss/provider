@@ -17,4 +17,7 @@ public interface ProblemMapper {
 
     @Select("select * from problem where course_id = #{courseId}")
     List<Problem> getByCourseId(@Param("courseId") String courseId);
+
+    @Select("select * from problem where problem_id = #{problemId}")
+    Problem getProblemById(Integer problemId);
 }

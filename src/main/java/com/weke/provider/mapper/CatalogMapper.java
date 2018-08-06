@@ -16,4 +16,7 @@ public interface CatalogMapper {
 
     @Select("select * from catalog where course_id = #{courseId}")
     List<Catalog> getByCourseId(@Param("courseId") Integer courseId);
+
+    @Select("select * from catalog where catalog_name = #{catalogName}")
+    Catalog getCatalogByName(String catalogName);
 }

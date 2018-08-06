@@ -1,41 +1,59 @@
 package com.weke.provider.controller;
 
-import com.weke.provider.domain.User;
-import com.weke.provider.exception.UsernameIsExitedException;
-import com.weke.provider.mapper.UserMapper;
-import com.weke.provider.vo.UserParam;
+import com.weke.provider.service.UserService;
+import com.weke.provider.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+import com.weke.provider.domain.User;
 
+/**
+ * 用户更改信息接口
+ */
 @RestController
+@RequestMapping("userApi")
 @CrossOrigin
-@RequestMapping("user")
 public class UserController {
 
     @Autowired
-    private UserMapper userMapper;
+    UserService userService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @PostMapping("register")
-    public String sigin(@RequestBody UserParam userParam) {
-        User user = userMapper.getUserName(userParam.getUsername());
-        if (null!=user) {
-            throw new UsernameIsExitedException("用户已经存在");
+    /**
+     *  用户信息改变，保存信息
+     * @param userVo
+     * @return
+     */
+    @PostMapping("changeUser")
+    public boolean updateUser(@RequestBody UserVo userVo) {
+        System.out.println(userVo);
+        if (userService.updateUser(userVo, 5) > 0){
+            return true;
         }
-
-        userParam.setPassword(BCrypt.hashpw(userParam.getPassword(), BCrypt.gensalt()));
-        User uses = new User();
-        uses.setUserName(userParam.getUsername());
-        uses.setUserPassword(userParam.getPassword());
-        userMapper.addUser(uses);
-        System.out.println(userParam.getPassword());
-
-        return "true";
+        return false;
     }
+
+    /**
+     * 添加用户，暂定
+     * @param userVo
+     * @return
+     */
+    @PostMapping("add")
+    public boolean add(@RequestBody UserVo userVo) {
+        User user = new User();
+        user.setUserName(userVo.getNickname());
+        user.setUserPassword("xxx");
+        userService.addUser(user);
+        return true;
+    }
+
+    /**
+     * 通过userId查找用户
+     * @return
+     */
+    @GetMapping("getUser")
+    public UserVo getUser() {
+        UserVo userVo = userService.getUserById(9);
+        return userVo;
+    }
+
 
 }

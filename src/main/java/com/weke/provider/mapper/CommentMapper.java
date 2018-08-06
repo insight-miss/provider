@@ -16,4 +16,9 @@ public interface CommentMapper {
 
     @Select("select * from comment where course_id = #{courseId}")
     List<Comment> getCommentById(@Param("courseId") String courseId);
+
+
+    // 通过评论id找评论
+    @Select("select * from comment comment_id = #{commentId}")
+    Comment getCommentBycId(Integer commentId);
 }
