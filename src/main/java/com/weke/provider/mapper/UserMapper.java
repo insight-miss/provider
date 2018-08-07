@@ -20,6 +20,10 @@ public interface UserMapper {
     @Options(useGeneratedKeys=true, keyProperty="userId")
     int addUser(User user);
 
+    @Insert("insert into user(user_name, user_password,user_photo) values(#{userName}, #{userPassword},#{userPhoto})")
+    @Options(useGeneratedKeys=true, keyProperty="userId")
+    int insertUser(User user);
+
     @Select("select user_id from user where user_name = #{userName}")
     Integer getIdByName(@Param("userName")String userName);
 

@@ -46,3 +46,6 @@ weke.filehost: video
 
 sms.signName: 唐文亮
 sms.templateCode: SMS_141195199
+
+github.client_id: e3a5b0739fc1d784e02e
+github.Client Secret: 383a08fed2295a0c3c43e77e91dfc610e94f5fca

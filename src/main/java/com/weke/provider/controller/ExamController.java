@@ -1,13 +1,12 @@
 package com.weke.provider.controller;
 
 import com.weke.provider.mapper.ExamMapper;
-import com.weke.provider.mongodb.ExamExport;
-import com.weke.provider.mongodb.ProblemInfo;
-import com.weke.provider.mongodb.Question;
-import com.weke.provider.mongodb.TestInfo;
+import com.weke.provider.mongodb.*;
 import com.weke.provider.repository.TestInfoRepository;
+import com.weke.provider.repository.UserExamRepository;
 import com.weke.provider.service.ExamService;
 import com.weke.provider.util.TimeUtil;
+import com.weke.provider.util.TokenUtil;
 import com.weke.provider.vo.exam.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -62,10 +61,14 @@ public class ExamController {
     }
 
     @PostMapping("/publish")
-    public String publishExam(@RequestBody ExamInfo examInfo) {
+    public String publishExam(@RequestBody ExamInfo examInfo,HttpServletRequest request) {
         try {
             System.out.println(examInfo);
-            examService.insertTestInfo(examInfo);
+            String token = request.getHeader("Authorization");
+            TokenUtil tokenUtil = new TokenUtil(token);
+            String userName = tokenUtil.getUserName();
+
+            examService.insertTestInfo(examInfo,userName);
         } catch (Exception e) {
             return "false";
         }
@@ -78,8 +81,12 @@ public class ExamController {
      * @return
      */
     @GetMapping("/allExam")
-    public List<Exams> getAllExam() {
-        return examService.getAllExam();
+    public List<Exams> getAllExam(@RequestParam("userName") String userName) {
+        System.out.println(userName);
+        if (userName==null) {
+            return null;
+        }
+        return examService.getAllExam(userName);
     }
 
     /**
@@ -98,7 +105,7 @@ public class ExamController {
      * @return
      */
     @PostMapping("/submitExam")
-    public String setUserExam(@RequestBody UserExamVo userExamVo) {
+    public String setUserExam(@RequestBody UserExamVo userExamVo , HttpServletRequest request) {
 //        try {
 //            System.out.println(userExamVo);
 //            examService.insertUserExam(userExamVo);
@@ -116,6 +123,7 @@ public class ExamController {
      */
     @PostMapping("/examAnalySis")
     public ExamExport getExamAnalysis(@RequestBody Analysis analysis) {
+        System.out.println(analysis);
         return examService.getAnalysis(analysis);
     }
 
@@ -165,5 +173,12 @@ public class ExamController {
     @GetMapping("/testInfo")
     public List<TestInfo> getTestInfo() {
         return testInfoRepository.findAllBy();
+    }
+
+    @Autowired
+    private UserExamRepository userExamRepository;
+    @GetMapping("/userExam")
+    public List<UserExamInfo> getUserExam() {
+        return userExamRepository.findAll();
     }
 }

@@ -33,6 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/catalog/**",
             "/video/**",
             "/page/**",
+            "/direction/**",
+            "/aLiPay/**",
             "/user/register",
             "/webjars/**"
     };
@@ -55,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
+                .antMatchers("/css/**","/js/**","/fonts/**","/success").permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()  // 所有请求需要身份认证
                 .and()
