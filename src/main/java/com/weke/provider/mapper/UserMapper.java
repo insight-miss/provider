@@ -40,5 +40,20 @@ public interface UserMapper {
     @Update("update user set user_photo=#{photoUrl} where user_name=#{userName}")
     int updatePhoto(@Param("userName") String userName, @Param("photoUrl") String photoUrl);
 
+    @Insert("insert into user(user_name, user_password,user_photo) values(#{userName}, #{userPassword},#{userPhoto})")
+    @Options(useGeneratedKeys=true, keyProperty="userId")
+    int insertUser(User user);
+
+
+    @Select("select user_photo from user where user_id = #{userId}")
+    String getUserPhotoById(Integer userId);
+
+    @Update("update user set user_password = #{userPassword} where user_name = #{userName}")
+    void updateUserPassword(@Param("userName") String userName,@Param("userPassword") String userPassword);
+
+    @Update("update user set user_email = #{userEmail} where user_name = #{userName}")
+    void updateEmailByUserName(@Param("userName") String userName,@Param("userEmail") String userEmail);
+
+
 
 }
