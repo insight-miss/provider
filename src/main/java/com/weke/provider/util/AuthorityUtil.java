@@ -14,6 +14,7 @@ public class AuthorityUtil {
     @Autowired
     private UserPermissionMapper userPermissionMapper;
 
+
     public String getAuthority(String name) {
         Integer userId = userMapper.getUserName(name).getUserId();
         UserPermission userPermission = userPermissionMapper.getByUserId(userId);

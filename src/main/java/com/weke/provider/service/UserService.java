@@ -3,6 +3,8 @@ package com.weke.provider.service;
 import com.weke.provider.domain.User;
 import com.weke.provider.vo.UserVo;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 public interface UserService {
 
@@ -27,4 +29,16 @@ public interface UserService {
      * @return
      */
     int updateUser(UserVo userVo, Integer id);
+
+    /**
+     * 根据用户名来更改图片url
+     * @param userName
+     * @param photoUrl
+     * @return
+     */
+    int updatePhoto(String userName, String photoUrl);
+
+    int getUserIdByToken(HttpServletRequest request);
+
+    String getUserNameByToken(HttpServletRequest request);
 }

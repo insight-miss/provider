@@ -1,10 +1,13 @@
 package com.weke.provider.controller;
 
 import com.weke.provider.service.UserService;
+import com.weke.provider.util.TokenUtil;
 import com.weke.provider.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.weke.provider.domain.User;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 用户更改信息接口
@@ -23,9 +26,10 @@ public class UserController {
      * @return
      */
     @PostMapping("changeUser")
-    public boolean updateUser(@RequestBody UserVo userVo) {
+    public boolean updateUser(@RequestBody UserVo userVo, HttpServletRequest request) {
+       Integer userId = userService.getUserIdByToken(request);
         System.out.println(userVo);
-        if (userService.updateUser(userVo, 5) > 0){
+        if (userService.updateUser(userVo, userId) > 0){
             return true;
         }
         return false;
@@ -50,8 +54,10 @@ public class UserController {
      * @return
      */
     @GetMapping("getUser")
-    public UserVo getUser() {
-        UserVo userVo = userService.getUserById(9);
+    public UserVo getUser(HttpServletRequest request) {
+        Integer userId = userService.getUserIdByToken(request);
+        UserVo userVo = userService.getUserById(userId);
+        System.out.println("permission "+userVo.getPermission());
         return userVo;
     }
 

@@ -16,7 +16,6 @@ import com.weke.provider.util.JudgeAnswerUtil;
 import com.weke.provider.util.TimeUtil;
 import com.weke.provider.vo.exam.*;
 import com.weke.provider.vo.teacher.TeacherExamVo;
-import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

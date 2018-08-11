@@ -13,6 +13,10 @@ spring:
     password: root
   redis:
     host: localhost
+    pool:
+      max-active: 8
+      max-idle: 8
+      min-idle: 0
   http:
       multipart:
         max-file-size: 100Mb
@@ -20,6 +24,11 @@ spring:
   data:
     mongodb:
       uri: mongodb://10.0.0.26:12345/imooc
+    elasticsearch:
+      cluster-nodes: 127.0.0.1:9300
+      local: false
+      repositories:
+        enable: true
   jpa:
     hibernate:
       ddl-auto: update

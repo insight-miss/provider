@@ -49,6 +49,7 @@ public class CatalogServiceImpl implements CatalogService {
             Integer catalogId = catalogDo.getCatalogId();
             for (String chapterName : catalog.getChapters()) {
                 String chapterUrl = stringRedisTemplate.opsForValue().get(chapterName);
+                System.out.println(chapterName+"  "+chapterUrl);
                 Chapter chapter = new Chapter();
                 chapter.setChapterUrl(chapterUrl);
                 chapter.setCatalogId(catalogId);

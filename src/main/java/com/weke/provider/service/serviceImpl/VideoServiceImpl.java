@@ -26,12 +26,14 @@ public class VideoServiceImpl implements VideoService {
     CatalogMapper catalogMapper;
 
     @Override
-    public VideoVo getVideoVoByChapterCatalog(String catalogName, String chapterName, String nickname) {
+    public VideoVo getVideoVoByChapterCatalog(String catalogName, String chapterName, String nickName) {
+        nickName = "Ts";
         Catalog catalog = catalogMapper.getCatalogByName(catalogName);
         Chapter chapter = chapterMapper.getChapterByNameAndCatalogId(chapterName, catalog.getCatalogId());
         String videoUrl = "https://weke-video.oss-cn-beijing.aliyuncs.com/"+chapter.getChapterUrl();
-        String photoUrl = userMapper.getUserByNickName(nickname).getUserPhoto();
-        VideoVo videoVo = new VideoVo(videoUrl, photoUrl, nickname);
+        System.out.println(chapterName+ "  "+videoUrl+"  "+nickName);
+        String photoUrl = userMapper.getUserByNickName(nickName).getUserPhoto();
+        VideoVo videoVo = new VideoVo(videoUrl, photoUrl, nickName);
         return videoVo;
     }
 }

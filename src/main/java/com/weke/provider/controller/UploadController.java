@@ -2,9 +2,13 @@ package com.weke.provider.controller;
  
 import com.weke.provider.domain.Chapter;
 import com.weke.provider.domain.ChapterURl;
+import com.weke.provider.service.UploadService;
+import com.weke.provider.service.UserService;
 import com.weke.provider.util.AliyunOSSUtil;
 import com.weke.provider.util.DecodeUTF16;
 import com.weke.provider.util.UidGenerator;
+import com.weke.provider.vo.upload.PhototUrl;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -33,46 +37,41 @@ public class UploadController {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
+    @Autowired
+    UploadService uploadService;
+
+    @Autowired
+    UserService userService;
+
+
+
     /**
      * 文件上传
      * @param file
      */
-    @RequestMapping(value = "video")
+    @PostMapping(value = "video")
     public String uploadBlog(MultipartFile file, HttpServletRequest request){
 
         String catalogName = DecodeUTF16.unicodetoString(request.getHeader("catalogName"));
         String chapterName = DecodeUTF16.unicodetoString(request.getHeader("chapterName"));
         System.out.println(catalogName+" "+chapterName);
 
-        System.out.println("上传文件" +" ");
-
-        String uploadUrl = "null";
- 
-        try {
-            if(null != file){
-                String filename = file.getOriginalFilename();
-                System.out.println(filename);
-                if(!"".equals(filename.trim())){
-                    File newFile = new File(filename);
-                    FileOutputStream os = new FileOutputStream(newFile);
-                    os.write(file.getBytes());
-                    os.close();
-
-                    file.transferTo(newFile);
-                    //上传到OSS 返回文件url
-                    uploadUrl = AliyunOSSUtil.upload(newFile, uidGenerator.nextIdstr());
-                    newFile.delete();
-                }
-            }
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-//        stringRedisTemplate.opsForValue().set(catalogName, chapterName);
+        System.out.println("shangchuanwenjian" +" ");
+        String uploadUrl = uploadService.uploadFile(file);
         stringRedisTemplate.opsForValue().set(chapterName, uploadUrl);
+        System.out.println(chapterName+ " ==> "+uploadUrl);
         // 一个小时超时
         stringRedisTemplate.expire(chapterName, 1, TimeUnit.HOURS);
         return uploadUrl;
     }
 
- 
+    @PostMapping("photo")
+    public PhototUrl uplodPhoto(MultipartFile file, HttpServletRequest request) {
+        String userName = userService.getUserNameByToken(request);
+        String uploadUrl = "https://weke-video.oss-cn-beijing.aliyuncs.com/"+uploadService.uploadFile(file);
+        userService.updatePhoto(userName, uploadUrl);
+        System.out.println(userName+"=====>"+uploadUrl);
+        return new PhototUrl(uploadUrl);
+    }
 }
+//./natapp -authtoken=b973c1a1ae7f002c

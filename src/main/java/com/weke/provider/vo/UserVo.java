@@ -13,17 +13,19 @@ public class UserVo implements Serializable {
     private String sex;
     @JsonProperty("info")
     private String signature;
+    private String permission;
 
     public UserVo() {
     }
 
-    public UserVo(String url, String nickname, String job, String address, String sex, String signature) {
+    public UserVo(String url, String nickname, String job, String address, String sex, String signature, String permission) {
         this.url = url;
         this.nickname = nickname;
         this.job = job;
         this.address = address;
         this.sex = sex;
         this.signature = signature;
+        this.permission = permission;
     }
 
     @Override
@@ -35,6 +37,7 @@ public class UserVo implements Serializable {
                 ", address='" + address + '\'' +
                 ", sex='" + sex + '\'' +
                 ", signature='" + signature + '\'' +
+                ", permission='" + permission + '\'' +
                 '}';
     }
 
@@ -84,5 +87,13 @@ public class UserVo implements Serializable {
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 }

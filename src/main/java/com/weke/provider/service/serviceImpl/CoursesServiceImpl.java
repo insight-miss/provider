@@ -6,6 +6,7 @@ import com.weke.provider.domain.Course;
 import com.weke.provider.domain.ESdomain.ESCourse;
 import com.weke.provider.mapper.CourseMapper;
 import com.weke.provider.service.CoursesService;
+import com.weke.provider.service.ESCourseService;
 import com.weke.provider.util.TimeUtil;
 import com.weke.provider.vo.CourseVo;
 import com.weke.provider.vo.upload.InfoVo;
@@ -25,6 +26,9 @@ public class CoursesServiceImpl implements CoursesService {
 
     @Autowired
     TimeUtil timeUtil;
+
+    @Autowired
+    private ESCourseService esCourseService;
 
     @Override
     public List<CourseVo> getCourse() {
@@ -56,6 +60,7 @@ public class CoursesServiceImpl implements CoursesService {
         String mustKnow = "  ";
         String courseTime = timeUtil.getTime();
         Course course = new Course();
+        course.setMustKnow("https://img3.mukewang.com/szimg/5b55356c0001af0105400300.jpg");
         course.setCourseDiff(courseDiff);
         course.setCourseInfo(courseInfo);
         course.setCourseKind(courseKind);
@@ -64,6 +69,8 @@ public class CoursesServiceImpl implements CoursesService {
         course.setCoursePeople(coursePeople);
         course.setCourseTime(courseTime);
         course.setDirectionId(15);
+        ESCourse esCourse = new ESCourse(course.getCourseId(),course.getCourseName(),course.getCourseInfo(),course.getCourseDiff(),course.getCourseKind(),course.getMustKnow());
+        esCourseService.saveCourse(esCourse);
         courseMapper.saveCourse(course);
         return course.getCourseId();
     }

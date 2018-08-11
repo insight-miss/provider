@@ -20,6 +20,7 @@ public class VideoPlayController {
     public VideoVo getVideoUrl(@Param("catalogName") String catalogName, @Param("chapterName") String chapterName, HttpServletRequest httpServletRequest) {
         System.out.println(catalogName+ " "+chapterName );
         String nickname = "让让群";
+        System.out.println("nickname "+nickname);
         VideoVo videoVo = videoService.getVideoVoByChapterCatalog(catalogName, chapterName, nickname);
         return videoVo;
     }

@@ -34,7 +34,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/video/**",
             "/page/**",
             "/user/register",
-            "/webjars/**"
+            "/webjars/**",
+            "/payApi/**",
+            "/ali/**",
+            "/i/**",
+            "/userApi/**",
+            "/recommendApi/**"
     };
 
     private UserDetailsService userDetailsService;

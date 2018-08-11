@@ -5,6 +5,8 @@ import com.weke.provider.vo.UserVo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Mapper
 public interface UserMapper {
@@ -25,5 +27,18 @@ public interface UserMapper {
     @Update("update user set user_name=#{userVo.nickname}, user_photo=#{userVo.url}, user_sex=#{userVo.sex}, user_address=#{userVo.address}, user_job=#{userVo.job}, user_signature=#{userVo.signature}" +
             "where user_id=#{id}")
     int updateUser(@Param("userVo") UserVo userVo, @Param("id") Integer id);
+
+    @Select("select user_id from user where user_name = #{userName}")
+    Integer getIdByName(@Param("userName")String userName);
+
+    @Select("select * from user")
+    List<User> getAllUserInfo();
+
+    @Select("select user_name from user where user_email = #{emailName}")
+    String getUserNameByEmail(String emailName);
+
+    @Update("update user set user_photo=#{photoUrl} where user_name=#{userName}")
+    int updatePhoto(@Param("userName") String userName, @Param("photoUrl") String photoUrl);
+
 
 }

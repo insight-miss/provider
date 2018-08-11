@@ -56,4 +56,11 @@ public interface CourseMapper {
             "values(#{courseName}, #{courseInfo}, #{courseTime}, #{coursePeople}, #{courseDiff}, #{directionId}, #{courseLevel}, #{mustKnow})")
     @Options(useGeneratedKeys=true, keyProperty="courseId")
     Integer saveCourse(Course course);
+
+    // 获得所有课程
+    @Select("select * from course where 1 =1")
+    List<Course> getAllCourses();
+
+    @Select("select * from course where course_id=#{id}")
+    Course getCourseById(Integer id);
 }

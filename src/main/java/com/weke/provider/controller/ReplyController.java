@@ -2,6 +2,7 @@ package com.weke.provider.controller;
 
 
 import com.weke.provider.service.ReplyService;
+import com.weke.provider.util.TimeUtil;
 import com.weke.provider.vo.reply.ReplyPageVo;
 import com.weke.provider.vo.reply.ReplyVo;
 import com.weke.provider.vo.reply.ReplysVo;
@@ -16,6 +17,9 @@ public class ReplyController {
     @Autowired
     ReplyService replyService;
 
+    @Autowired
+    TimeUtil timeUtil;
+
     @GetMapping("detail")
     public ReplyPageVo getReplys(String commentId) {
         System.out.println(commentId);
@@ -25,7 +29,7 @@ public class ReplyController {
     @PostMapping("saveReply")
     public boolean saveRelys(@RequestBody ReplyVo replyVo) {
         System.out.println(replyVo);
-        String time = "2018-04-06";
+        String time = timeUtil.getTime();
         // 直接评论
         if (replyVo.getKind().equals("1") && replyService.saveReply(replyVo, time) > 0) {
             return true;
