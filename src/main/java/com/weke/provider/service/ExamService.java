@@ -15,13 +15,13 @@ public interface ExamService {
      * 增加考试
      * @param examInfo
      */
-    void insertTestInfo(ExamInfo examInfo);
+    void insertTestInfo(ExamInfo examInfo , String userName);
 
     /**
      * 查找所有题集
      * @return
      */
-    List<Exams> getAllExam();
+    List<Exams> getAllExam(String userName);
 
     /**
      * 获取考题具体详细

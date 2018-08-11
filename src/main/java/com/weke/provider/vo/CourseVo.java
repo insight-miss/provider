@@ -21,15 +21,27 @@ public class CourseVo implements Serializable {
     @JsonProperty("star")
     private Integer courseLevel;
 
+    @JsonProperty("url")
+    private String mustKnow;
+
     public CourseVo() {
     }
 
-    public CourseVo(String courseName, String courseKind, String courseDiff, Integer coursePeople, Integer courseLevel) {
+    public CourseVo(String courseName, String courseKind, String courseDiff, Integer coursePeople, Integer courseLevel, String mustKnow) {
         this.courseName = courseName;
         this.courseKind = courseKind;
         this.courseDiff = courseDiff;
         this.coursePeople = coursePeople;
         this.courseLevel = courseLevel;
+        this.mustKnow = mustKnow;
+    }
+
+    public String getMustKnow() {
+        return mustKnow;
+    }
+
+    public void setMustKnow(String mustKnow) {
+        this.mustKnow = mustKnow;
     }
 
     public String getCourseName() {

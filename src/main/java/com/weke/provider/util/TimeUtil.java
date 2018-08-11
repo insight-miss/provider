@@ -9,6 +9,7 @@ import java.util.Date;
 @Component
 public class TimeUtil {
     public String getTime() {
+        System.out.println("getTime");
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateNowStr = sdf.format(date);

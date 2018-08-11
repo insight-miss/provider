@@ -22,4 +22,7 @@ public interface ExamMapper {
 
     @Select("select * from exam where user_id = #{userId}")
     List<Exam> getExamIdByUserId(Integer userId);
+
+    @Select("select exam_grade from exam where exam_id = #{id}")
+    Integer getGradeById(Integer id);
 }

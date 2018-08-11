@@ -10,7 +10,7 @@ public interface EmailService {
      * @param emailName
      * @return
      */
-    String setEmail(String emailName);
+    String setEmail(String emailName,String userName);
 
     /**
      * 登录邮箱验证

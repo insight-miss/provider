@@ -3,12 +3,15 @@ package com.weke.provider.service.serviceImpl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.weke.provider.domain.User;
 import com.weke.provider.domain.UserPermission;
+import com.weke.provider.dto.UserPasswordDTo;
 import com.weke.provider.exception.UsernameIsExitedException;
 import com.weke.provider.mapper.UserMapper;
 import com.weke.provider.mapper.UserPermissionMapper;
 import com.weke.provider.service.UserInfoService;
+import com.weke.provider.vo.PhoneEmailVo;
 import com.weke.provider.vo.UserInfoVo;
 import com.weke.provider.vo.UserParam;
+import com.weke.provider.vo.UserPhotoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -127,5 +130,35 @@ public class UserInfoServiceImpl implements UserInfoService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean setPassword(UserPasswordDTo userPasswordDTo) {
+        User user = userMapper.getUserName(userPasswordDTo.getUserName());
+        Boolean isOk = BCrypt.checkpw(userPasswordDTo.getPassword(),user.getUserPassword());
+
+        if (!isOk) {
+            return false;
+        }
+        String currentPassword = BCrypt.hashpw(userPasswordDTo.getCurrentPassword(), BCrypt.gensalt());
+        userMapper.updateUserPassword(userPasswordDTo.getUserName(),currentPassword);
+        return true;
+    }
+
+    @Override
+    public UserPhotoVo getUserPhoto(String userName) {
+        User user = userMapper.getUserName(userName);
+        UserPhotoVo userPhotoVo = new UserPhotoVo();
+        userPhotoVo.setPhotoUrl(user.getUserPhoto());
+        return userPhotoVo;
+    }
+
+    @Override
+    public PhoneEmailVo getPhoneEmail(String userName) {
+        User user = userMapper.getUserName(userName);
+        PhoneEmailVo phoneEmailVo = new PhoneEmailVo();
+        phoneEmailVo.setUserEmail(user.getUserEmail());
+        phoneEmailVo.setUserPhone(user.getUserPhone());
+        return phoneEmailVo;
     }
 }

@@ -112,6 +112,7 @@ public class DirectionsServiceImpl implements DirectionsService {
             List<Course> courseList = courseMapper.getCourseByDiffAndDirection(courseDiff,id);
             for (Course course : courseList) {
                 CourseVo courseVo = new CourseVo();
+                courseVo.setMustKnow(course.getMustKnow());
                 courseVo.setCourseName(course.getCourseName());
                 courseVo.setCourseKind(course.getCourseKind());
                 courseVo.setCourseDiff(course.getCourseDiff());

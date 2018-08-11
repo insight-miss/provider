@@ -4,9 +4,11 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.weke.provider.domain.Comment;
 import com.weke.provider.domain.Course;
 import com.weke.provider.domain.Problem;
+import com.weke.provider.domain.User;
 import com.weke.provider.mapper.CommentMapper;
 import com.weke.provider.mapper.CourseMapper;
 import com.weke.provider.mapper.ProblemMapper;
+import com.weke.provider.mapper.UserMapper;
 import com.weke.provider.service.ProblemReviewService;
 import com.weke.provider.util.TimeUtil;
 import com.weke.provider.vo.*;
@@ -31,6 +33,9 @@ public class ProblemReviewServiceImpl implements ProblemReviewService {
 
     @Autowired
     private TimeUtil timeUtil;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public ProblemPageVo getByCourseName(String courseName) {
@@ -70,9 +75,12 @@ public class ProblemReviewServiceImpl implements ProblemReviewService {
             ProblemReviewVo problemReviewVo = new ProblemReviewVo();
             problemReviewVo.setKind("1");
             problemReviewVo.setNum(problem.getAnswerNum());
-            problemReviewVo.setPhoto("");
+
+            String userPhoto = userMapper.getUserPhotoById(problem.getUserId());
+
+            problemReviewVo.setPhoto(userPhoto);
             problemReviewVo.setComment(problem.getProblemInfo());
-            problemReviewVo.setUserId(problem.getUserId());
+            problemReviewVo.setUserId(problem.getProblemId());
             problemReviewVo.setBrowse(problem.getViewNumber().toString());
             problemReviewVo.setTitle(problem.getProblemTitle());
             problemReviewVo.setTime(problem.getProblemTime());
@@ -87,10 +95,14 @@ public class ProblemReviewServiceImpl implements ProblemReviewService {
             ProblemReviewVo problemReviewVo = new ProblemReviewVo();
             problemReviewVo.setKind("2");
             problemReviewVo.setNum(comment.getPraiseNum());
-            problemReviewVo.setPhoto("");
+
+            User user = userMapper.getUserById(comment.getUserId());
+
+            problemReviewVo.setPhoto(user.getUserPhoto());
             problemReviewVo.setComment(comment.getCommentInfo());
-            problemReviewVo.setUserId(comment.getUserId());
-            problemReviewVo.setBrowse(comment.getCourseId());
+            problemReviewVo.setUserId(comment.getCommentId());
+
+            problemReviewVo.setBrowse(user.getUserName());
             problemReviewVo.setTitle("");
             problemReviewVo.setTime(comment.getCommentTime());
             reviewVos.add(problemReviewVo);
@@ -99,25 +111,27 @@ public class ProblemReviewServiceImpl implements ProblemReviewService {
 
 
     @Override
-    public void insertProblem(ProblemVo problemVo) {
+    public void insertProblem(ProblemVo problemVo , String userName) {
         Problem problem = new Problem();
         problem.setCourseId(problemVo.getCourseId());
         problem.setProblemTitle(problemVo.getTitle());
         problem.setProblemInfo(problemVo.getInfo());
         problem.setAnswerNum(0);
-        problem.setUserId(1);
+        Integer userId = userMapper.getIdByName(userName);
+        problem.setUserId(userId);
         problem.setViewNumber(0);
         problem.setProblemTime(timeUtil.getTime());
         problemMapper.insert(problem);
     }
 
     @Override
-    public void insertComment(CommentVo commentVo) {
+    public void insertComment(CommentVo commentVo , String userName) {
         Comment comment = new Comment();
         comment.setCommentInfo(commentVo.getInfo());
         comment.setCourseId(commentVo.getCourseName());
         comment.setPraiseNum(0);
-        comment.setUserId(1);
+        Integer userId = userMapper.getIdByName(userName);
+        comment.setUserId(userId);
         comment.setCommentTime(timeUtil.getTime());
         commentMapper.insert(comment);
     }

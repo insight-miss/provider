@@ -14,8 +14,12 @@ import com.weke.provider.service.ExamService;
 import com.weke.provider.util.EcharUtil;
 import com.weke.provider.util.JudgeAnswerUtil;
 import com.weke.provider.util.TimeUtil;
+import com.weke.provider.vo.UserInfoVo;
 import com.weke.provider.vo.exam.*;
 import com.weke.provider.vo.teacher.TeacherExamVo;
+import org.aspectj.weaver.ast.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -57,9 +61,11 @@ public class ExamServiceImpl implements ExamService {
     @Autowired
     MongoTemplate mongoTemplate;
 
+    private static Logger logger = LoggerFactory.getLogger(ExamServiceImpl.class);
+
 
     @Override
-    public void insertTestInfo(ExamInfo examInfo) {
+    public void insertTestInfo(ExamInfo examInfo,String userName) {
         Exams exams = examInfo.getExam();
         String startTime = exams.getStartTime().substring(0,10);
         String endTime = exams.getEndTime().substring(0,10);
@@ -68,7 +74,9 @@ public class ExamServiceImpl implements ExamService {
         exams.setStatues(statues);
         exams.setEndTime(endTime);
         exams.setStartTime(startTime);
-        exams.setUserId(8);
+
+        User user = userMapper.getUserName(userName);
+        exams.setUserId(user.getUserId());
 
 
         Integer testId = insertExam(exams);
@@ -124,7 +132,7 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public List<Exams> getAllExam() {
+    public List<Exams> getAllExam(String userName) {
         List<TestInfo> testInfoList = testInfoRepository.findAll();
 
         List<Exams> examsList = new ArrayList<>();
@@ -133,16 +141,29 @@ public class ExamServiceImpl implements ExamService {
             Exams exams = testInfo.getExam();
             Integer userId = exams.getUserId();
             Integer id = exams.getId();
-            User user = userMapper.getUserById(userId);
-            UserExam userExam = userExamMapper.getByUserNameAndTestId(user.getUserName(),id);
+//            User user = userMapper.getUserById(userId);
+//            UserExam userExam = userExamMapper.getByUserNameAndTestId(user.getUserName(),id);
+            UserExam userExam = userExamMapper.getByUserNameAndTestId(userName,id);
 
+            logger.info(userName+" "+userExam);
             if (userExam!=null && userExam.getStatues()!=1) {
                 exams.setStatues("待审批");
             }else if ( userExam!=null ) {
                 exams.setStatues("已完成");
             } else {
                 String statues = timeUtil.getStatues(exams.getStartTime(),exams.getEndTime());
+                logger.info(statues);
                 exams.setStatues(statues);
+
+                if (statues.equals("已完成")) {
+                    UserExamVo userInfoVo = new UserExamVo();
+                    userInfoVo.setTestId(id);
+                    userInfoVo.setQuestions(testInfo.getQuestions());
+                    userInfoVo.setUserName(userName);
+                    insertUserExam(userInfoVo);
+                    exams.setStatues("待审批");
+                    logger.info(userName);
+                }
             }
 
             examsList.add(exams);
@@ -175,7 +196,7 @@ public class ExamServiceImpl implements ExamService {
             totalNumber++;
             if (question.getType()!=3) {
                 Integer judge = judgeAnswerUtil.judgeAnswer(question.getUserAnswer(),question.getAnswer());
-                System.out.println(judge);
+                logger.info(judge.toString());
                 if (judge == 1 ) {
                     correctNumber++;
                     if (question.getType() == 1 || question.getType() == 2) {
@@ -190,7 +211,7 @@ public class ExamServiceImpl implements ExamService {
 
         sumGrade=choiceScore+blankScore+answerScore;
 
-        System.out.println(choiceScore+" "+blankScore+" "+answerScore+" "+ sumGrade);
+        logger.info(choiceScore+" "+blankScore+" "+answerScore+" "+ sumGrade);
 
         UserExam userExam = new UserExam();
         userExam.setUserName(userName);
@@ -220,12 +241,14 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public ExamExport getAnalysis(Analysis analysis) {
         UserExam userExam = userExamMapper.getByUserNameAndTestId(analysis.getUserName(),analysis.getTestId());
+
         if (userExam!=null) {
             UserExamInfo userExamInfo = userExamRepository.findByUserExamId(userExam.getId());
             if (userExamInfo!=null) {
                 ExamExport examExport = userExamInfo.getExamExport();
                 List<Echar> echarList= getEchar(analysis.getTestId());
                 examExport.seteCharts(echarList);
+                logger.info(examExport.toString());
                 return examExport;
             }
         }
@@ -234,8 +257,8 @@ public class ExamServiceImpl implements ExamService {
 
     public List<Echar> getEchar(Integer testId) {
         List<UserExam> examList = userExamMapper.getByTestId(testId);
-
-        return echarUtil.getEchar(examList);
+        Integer sumGrade = examMapper.getGradeById(testId);
+        return echarUtil.getEchar(examList , sumGrade);
     }
 
     @Override
@@ -274,7 +297,7 @@ public class ExamServiceImpl implements ExamService {
         for (Question question: userExamVo.getQuestions()) {
             totalNumber++;
             if (question.getType() == 3) {
-                if (question.getStatus()!=null) {
+                if (question.getStatus()!=0) {
                     correctNumber++;
                     answerScore+=question.getStatus();
                 }
