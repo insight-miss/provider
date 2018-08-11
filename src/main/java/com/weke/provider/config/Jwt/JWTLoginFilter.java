@@ -2,19 +2,22 @@ package com.weke.provider.config.Jwt;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.weke.provider.domain.User;
+import com.weke.provider.domain.UserLogin;
 import com.weke.provider.util.ConstantKey;
+import com.weke.provider.util.IpUtil;
+import com.weke.provider.util.UserLoginUtil;
+import com.weke.provider.vo.UserLoginInfoVo;
 import com.weke.provider.vo.UserParam;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import javafx.print.Printer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -80,9 +83,11 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                     .signWith(SignatureAlgorithm.HS512, ConstantKey.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
                     .compact();
             // 登录成功后，返回token到header里面
+            response.setContentType("text/html; charset=utf-8");
             response.addHeader("Authorization", "Bearer " + token);
             PrintWriter printWriter = response.getWriter();
             printWriter.write("Bearer " + token);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

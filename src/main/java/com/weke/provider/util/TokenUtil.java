@@ -19,7 +19,7 @@ public class TokenUtil {
         this.token = token;
     }
 
-    public  String getUserName() {
+    public String getUserName() {
         String user = Jwts.parser()
                 .setSigningKey(ConstantKey.SIGNING_KEY)
                 .parseClaimsJws(this.token.replace("Bearer ", ""))

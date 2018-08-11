@@ -161,6 +161,8 @@ public class ExamServiceImpl implements ExamService {
                     userInfoVo.setQuestions(testInfo.getQuestions());
                     userInfoVo.setUserName(userName);
                     insertUserExam(userInfoVo);
+                    exams.setStatues("待审批");
+                    logger.info(userName);
                 }
             }
 
@@ -194,7 +196,7 @@ public class ExamServiceImpl implements ExamService {
             totalNumber++;
             if (question.getType()!=3) {
                 Integer judge = judgeAnswerUtil.judgeAnswer(question.getUserAnswer(),question.getAnswer());
-                System.out.println(judge);
+                logger.info(judge.toString());
                 if (judge == 1 ) {
                     correctNumber++;
                     if (question.getType() == 1 || question.getType() == 2) {
@@ -209,7 +211,7 @@ public class ExamServiceImpl implements ExamService {
 
         sumGrade=choiceScore+blankScore+answerScore;
 
-        System.out.println(choiceScore+" "+blankScore+" "+answerScore+" "+ sumGrade);
+        logger.info(choiceScore+" "+blankScore+" "+answerScore+" "+ sumGrade);
 
         UserExam userExam = new UserExam();
         userExam.setUserName(userName);
@@ -255,8 +257,8 @@ public class ExamServiceImpl implements ExamService {
 
     public List<Echar> getEchar(Integer testId) {
         List<UserExam> examList = userExamMapper.getByTestId(testId);
-
-        return echarUtil.getEchar(examList);
+        Integer sumGrade = examMapper.getGradeById(testId);
+        return echarUtil.getEchar(examList , sumGrade);
     }
 
     @Override
@@ -295,7 +297,7 @@ public class ExamServiceImpl implements ExamService {
         for (Question question: userExamVo.getQuestions()) {
             totalNumber++;
             if (question.getType() == 3) {
-                if (question.getStatus()!=null) {
+                if (question.getStatus()!=0) {
                     correctNumber++;
                     answerScore+=question.getStatus();
                 }

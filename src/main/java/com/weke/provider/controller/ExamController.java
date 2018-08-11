@@ -5,8 +5,7 @@ import com.weke.provider.mongodb.*;
 import com.weke.provider.repository.TestInfoRepository;
 import com.weke.provider.repository.UserExamRepository;
 import com.weke.provider.service.ExamService;
-import com.weke.provider.util.TimeUtil;
-import com.weke.provider.util.TokenUtil;
+import com.weke.provider.util.*;
 import com.weke.provider.vo.exam.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -83,9 +82,11 @@ public class ExamController {
     @GetMapping("/allExam")
     public List<Exams> getAllExam(@RequestParam("userName") String userName) {
         System.out.println(userName);
-        if (userName==null) {
+        if (userName==null || userName.equals("null")) {
             return null;
         }
+        System.out.println(userName.equals("null")+" "+userName.equals(""));
+//        return null;
         return examService.getAllExam(userName);
     }
 
@@ -177,8 +178,20 @@ public class ExamController {
 
     @Autowired
     private UserExamRepository userExamRepository;
+
+    @Autowired
+    private UserLoginUtil userLoginUtil;
+
     @GetMapping("/userExam")
-    public List<UserExamInfo> getUserExam() {
-        return userExamRepository.findAll();
+    public String getUserExam(HttpServletRequest request) {
+        String ip = IpUtil.getClinetIpByReq(request);
+        String city = MyHttpResponse.cityInfo(ip);
+        if (city.equals("")) {
+            System.out.println("局域网");
+        } else {
+            System.out.println(city);
+        }
+//
+        return city;
     }
 }

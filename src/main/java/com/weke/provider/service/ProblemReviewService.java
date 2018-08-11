@@ -23,11 +23,11 @@ public interface ProblemReviewService {
      * 发表问题
      * @param problemVo
      */
-    void insertProblem(ProblemVo problemVo);
+    void insertProblem(ProblemVo problemVo , String userName);
 
     /**
      * 发表评论
      * @param commentVo
      */
-    void insertComment(CommentVo commentVo);
+    void insertComment(CommentVo commentVo , String userName);
 }

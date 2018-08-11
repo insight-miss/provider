@@ -1,11 +1,12 @@
 package com.weke.provider.controller;
 
 import com.weke.provider.domain.User;
+import com.weke.provider.dto.UserPasswordDTo;
 import com.weke.provider.exception.UsernameIsExitedException;
 import com.weke.provider.mapper.UserMapper;
 import com.weke.provider.service.UserInfoService;
-import com.weke.provider.vo.UserInfoVo;
-import com.weke.provider.vo.UserParam;
+import com.weke.provider.service.UserLoginInfoService;
+import com.weke.provider.vo.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -22,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserInfoService userInfoService;
+
+    @Autowired
+    private UserLoginInfoService userLoginInfoService;
 
     @PostMapping("register")
     public Boolean register(@RequestBody UserParam userParam) {
@@ -64,5 +68,36 @@ public class UserController {
 //        }
         userInfoService.checkSmsCode(phone,code);
         return "true";
+    }
+
+    /**
+     * 获取用户登录信息
+     * @param userName
+     * @return
+     */
+    @GetMapping("/userLoginInfo")
+    public List<UserLoginInfoVo> getUserLoginInfo(String userName) {
+        return userLoginInfoService.getUserLoginInfo(userName);
+    }
+
+    /**
+     * 修改密码
+     * @param userPasswordDTo
+     * @return
+     */
+    @PostMapping("/setPassword")
+    public Boolean setUserPassword(@RequestBody UserPasswordDTo userPasswordDTo) {
+        System.out.println(userPasswordDTo);
+        return userInfoService.setPassword(userPasswordDTo);
+    }
+
+    @GetMapping("/userPhoto")
+    public UserPhotoVo getUserPhoto(@RequestParam("userName") String userName) {
+        return userInfoService.getUserPhoto(userName);
+    }
+
+    @GetMapping("/userPhoneEmail")
+    public PhoneEmailVo getPhoneEmail(@RequestParam("userName") String userName) {
+        return userInfoService.getPhoneEmail(userName);
     }
 }

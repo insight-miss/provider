@@ -37,7 +37,7 @@ public class EmailServiceImpl implements EmailService {
     private EmailUtil emailUtil;
 
     @Override
-    public String setEmail(String emailName) {
+    public String setEmail(String emailName,String userName) {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {
@@ -65,6 +65,7 @@ public class EmailServiceImpl implements EmailService {
             javaMailSender.send(message);
 
             stringRedisTemplate.opsForValue().set(emailName,token);
+            stringRedisTemplate.opsForValue().set("emailUserName",userName);
 
         } catch (MessagingException e) {
             System.out.println("发送失败");
@@ -97,12 +98,18 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public String bindEmail(String token, String emailName) {
-        String userToken = stringRedisTemplate.opsForValue().get(emailName);
 
+        System.out.println(emailName);
+
+        String userToken = stringRedisTemplate.opsForValue().get(emailName);
+        String userName = stringRedisTemplate.opsForValue().get("emailUserName");
         if (!userToken.equals(token)) {
-            return "绑定失败!!!";
+            return "false";
         }
         stringRedisTemplate.delete(emailName);
-        return "绑定成功!!!";
+        stringRedisTemplate.delete("emailUserName");
+
+        userMapper.updateEmailByUserName(userName,emailName);
+        return "true";
     }
 }

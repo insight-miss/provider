@@ -54,4 +54,7 @@ public interface CourseMapper {
 
     @Select("select * from course where course_name = #{courseName}")
     Course getByCourseName(@Param("courseName") String courseName);
+
+    @Select("select * from course where course_id = #{courseId}")
+    Course getByCourseId(@Param("courseId") Integer courseId);
 }

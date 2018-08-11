@@ -39,4 +39,6 @@ public class RgexUtil {
         user.setUserPhoto(url.substring(1,url.length()-1));
         return user;
     }
+
+
 }

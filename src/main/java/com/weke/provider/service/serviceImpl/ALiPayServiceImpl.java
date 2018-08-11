@@ -44,6 +44,7 @@ public class ALiPayServiceImpl implements ALiPayService {
         UserParam userParam = new UserParam();
         String ALiUserName = stringRedisTemplate.opsForValue().get("ALiUserName");
         String ALiUserPhoto = stringRedisTemplate.opsForValue().get("ALiUserPhoto");
+
         userParam.setUsername(ALiUserName);
         userParam.setPassword(ALiUserPhoto);
         stringRedisTemplate.delete("ALiUserName");
@@ -55,6 +56,7 @@ public class ALiPayServiceImpl implements ALiPayService {
                         .signWith(SignatureAlgorithm.HS512, ConstantKey.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
                         .compact();
         userParam.setPhone("Bearer " + token);
+        System.out.println(userParam);
         return userParam;
     }
 

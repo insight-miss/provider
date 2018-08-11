@@ -3,6 +3,8 @@ package com.weke.provider.controller;
 import com.mongodb.util.JSON;
 import com.weke.provider.domain.User;
 import com.weke.provider.service.ALiPayService;
+import com.weke.provider.service.UserLoginInfoService;
+import com.weke.provider.util.IpUtil;
 import com.weke.provider.vo.UserParam;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -33,10 +36,18 @@ public class ALiPayController {
     @Autowired
     private ALiPayService aLiPayService;
 
+    @Autowired
+    private UserLoginInfoService userLoginInfoService;
+
     @GetMapping("login")
     @ResponseBody
-    public UserParam loginApi() {
-        return aLiPayService.getUserParam();
+    public UserParam loginApi(HttpServletRequest request) {
+        UserParam userParam = aLiPayService.getUserParam();
+        if (userParam.getUsername()!=null) {
+            String ip = IpUtil.getClinetIpByReq(request);
+            userLoginInfoService.insertUserLogin(ip,2,userParam.getUsername());
+        }
+        return userParam;
     }
 
     @GetMapping("callback")
@@ -50,5 +61,7 @@ public class ALiPayController {
 
         return "授权成功";
     }
+
+
 
 }

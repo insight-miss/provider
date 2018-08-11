@@ -36,6 +36,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/direction/**",
             "/aLiPay/**",
             "/user/register",
+            "/user/**",
+            "/exam/**",
+            "/email/**",
             "/webjars/**"
     };
 

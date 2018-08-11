@@ -32,4 +32,13 @@ public interface UserMapper {
 
     @Select("select user_name from user where user_email = #{emailName}")
     String getUserNameByEmail(String emailName);
+
+    @Select("select user_photo from user where user_id = #{userId}")
+    String getUserPhotoById(Integer userId);
+
+    @Update("update user set user_password = #{userPassword} where user_name = #{userName}")
+    void updateUserPassword(@Param("userName") String userName,@Param("userPassword") String userPassword);
+
+    @Update("update user set user_email = #{userEmail} where user_name = #{userName}")
+    void updateEmailByUserName(@Param("userName") String userName,@Param("userEmail") String userEmail);
 }
